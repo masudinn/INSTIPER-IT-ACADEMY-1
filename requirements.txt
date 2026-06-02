@@ -1,6 +1,10 @@
-pandas==1.3.4
-numpy==1.21.4
-Flask==2.0.2
-gunicorn==20.1.0
-scikit-learn==1.0.1
-matplotlib~=3.5.0
+1. ubah venv linux ke windows
+-----> masuk ke cmd lalu arahkan ke folder projek
+-----> rmdir /s venv
+-----> python -m venv venv
+-----> venv\Scripts\activate
+-----> pip install setuptools wheel
+-----> pip install pandas numpy Flask scikit-learn matplotlib
+-----> python app.py
+2. ubah codingan
+----->ubah file app.py line 68 classes.encoded.iloc[i]==pred2
