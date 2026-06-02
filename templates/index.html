@@ -1,553 +1,585 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="dicoding:email" content="wiweka@undiksha.ac.id">
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/45b14ba51c.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TanamSaja - Sistem Rekomendasi Tanaman Pangan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --secondary: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --accent: #f39c12;
+        }
 
-    <title>TanamSaja -- Sistem Rekomendasi Tanaman Pangan</title>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Bootstrap core CSS -->
-    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        html {
+            scroll-behavior: smooth;
+        }
 
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            overflow-x: hidden;
+        }
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
-    <link rel="stylesheet" href="../static/assets/css/style.css" />
-    <link rel="stylesheet" href="../static/assets/css/animated.css" />
-    <link rel="stylesheet" href="../static/assets/css/owl.css" />
-    <link rel="stylesheet" href="../static/assets/css/custom.css" />
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary) !important;
+        }
+
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: var(--dark) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .hero-title {
+            color: white;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-hero {
+            background: white;
+            color: var(--primary-dark);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .btn-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            color: var(--primary-dark);
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .predict-section {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            padding: 50px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            border: 2px solid #e8e8e8;
+            border-radius: 15px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.1);
+        }
+
+        .input-group-text {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            border-radius: 15px 0 0 15px;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .btn-predict {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: none;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .btn-predict:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 30px;
+            border: 2px solid var(--primary);
+        }
+
+        .result-title {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .crop-badge {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .crop-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .description-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 100px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .predict-section {
+                padding: 30px 20px;
+                margin-top: 0;
+                border-radius: 30px 30px 0 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
-        <div class="preloader-inner">
-            <span class="dot"></span>
-            <div class="dots">
-                <span></span>
-                <span></span>
-                <span></span>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-leaf"></i>TanamSaja
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#predict">Prediksi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/list-tanaman">List Tanaman</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Tentang</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-    <!-- ***** Preloader End ***** -->
+    </nav>
 
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="#" class="logo">
-                            <img src="../static/assets/images/logo.png" alt="TanamSaja" />
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
-                            <li class="scroll-to-section">
-                                <a href="#top" class="active">Beranda</a>
-                            </li>
-                            <li class="scroll-to-section">
-                                <a href="#rec">Rekomendasi</a>
-                            </li>
-                            <li class="scroll-to-section">
-                                <a href="#kontak">Tentang Kami</a>
-                            </li>
-                        </ul>
-                        <a class="menu-trigger">
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Sistem Rekomendasi Tanaman Pangan</h1>
+                    <p class="hero-subtitle">
+                        Dapatkan rekomendasi tanaman yang tepat untuk dibudidayakan 
+                        berdasarkan kondisi tanah dan iklim Anda dengan teknologi Machine Learning.
+                    </p>
+                    <a href="#predict" class="btn btn-hero">
+                        <i class="fas fa-search"></i> Mulai Prediksi
+                    </a>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2919/2919649.png" 
+                         alt="Plant" style="max-width: 400px; animation: float 4s ease-in-out infinite;">
                 </div>
             </div>
         </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
-
-    <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6 align-self-center">
-                            <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h2>Sistem Rekomendasi Tanaman Pangan Untuk Budidaya</h2>
-                                        <p>
-                                            Kami akan memberikan rekomendasi tanaman pangan berdasarkan dari hasil prediksi dengan memanfaatkan Machine Learning untuk membantu anda dalam memilih tanaman yang tepat untuk dibudidayakan.
-                                        </p>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <button type="button" class="btn btn-secondary">
-                        <a href="#rec">Prediksi Sekarang</a>
-                      </button>
-                                        <button type="button" class="btn btn-secondary">
-                        <a href="../templates/crop.html">Lihat Tanaman</a>
-                      </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
-                                <img src="../static/assets/images/logo2.png" alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="prec-input">
-        <div class="container px-4 px-lg-5 h-150" id="rec">
-            <div class="row">
-                <h3 style="text-align: center;">Prediksi Tanaman Pangan</h3>
-            </div>
-            <br>
-            <br>
-            <form action="{{ url_for('predict') }}" method="post" name="predict">
-                <div class="row">
-                    <div class="col">
-                        <label for="n" class="form-label"><b>Nilai Nitrogen dalam Tanah (N)</b></label
-          >
-          <input
-            type="number"
-            class="form-control form-control-lg"
-            name="n"
-            placeholder="0"
-            min="0"
-            required="required"
-            autocomplete="off"
-          /><br /><br />
-        </div>
-        <div class="col">
-          <label for="p" class="form-label"
-            ><b>Nilai Phosphorous(P) dalam Tanah</b></label
-          >
-          <input
-            type="number"
-            class="form-control form-control-lg"
-            name="p"
-            placeholder="0"
-            min="0"
-            required="required"
-            autocomplete="off"
-          /><br /><br />
-        </div>
-        <div class="col">
-          <label for="k" class="form-label"
-            ><b>Nilai Potassium(K) dalam Tanah</b></label
-          >
-          <input
-            type="number"
-            class="form-control form-control-lg"
-            name="k"
-            placeholder="0"
-            min="0"
-            required="required"
-            autocomplete="off"
-          /><br /><br />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="Temperature" class="form-label"
-            ><b>Temperature dalam celcius</b></label
-          >
-          <input
-            type="number"
-            id="floatNumber"
-            class="form-control form-control-lg"
-            name="Temperature"
-            placeholder="0.00"
-            min="0"
-            step=".01"
-            required="required"
-            autocomplete="off"
-          /><br /><br />
-        </div>
-        <div class="col">
-          <label for="Humidity" class="form-label"
-            ><b>Humidity dalam percent</b></label
-          ><br />
-          <input
-            type="number"
-            class="form-control form-control-lg"
-            name="Humidity"
-            placeholder="0"
-            min="0"
-            required="required"
-            autocomplete="off"
-          /><br /><br />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="PH" class="form-label"
-            ><b>Tekanan PH dalam tanah</b></label
-          ><br />
-          <input
-            type="number"
-            id="floatNumber"
-            class="form-control form-control-lg"
-            name="PH"
-            placeholder="0.00"
-            min="0"
-            step=".01"
-            required="required"
-            autocomplete="off"
-          /><br /><br />
-        </div>
-        <div class="col">
-          <label for="rain_fall" class="form-label"
-            ><b>Curah Hujan dalam millimeters (mm)</b></label
-          ><br />
-          <input
-            type="number"
-            id="floatNumber"
-            class="form-control form-control-lg"
-            name="rain_fall"
-            placeholder="0.00"
-            min="0"
-            step=".01"
-            required="required"
-            autocomplete="off"
-          /><br /><br />
-        </div>
-      </div>
-      <button id="predict" class="btn btn-primary btn-xl">Prediksi</button>
-      <br />
-    </form>
-  </div>
-  
-    
-    <section id="result" class="result-section position-relative">
-      <div class="recc"><img class="rounded mx-auto d-block"
-        style="width: 25rem; height: auto;"
-        src="data:image/png;base64, {{ plot_url }}"
-      /></div>
-     
-      {% if prediction_text == "PADI" %}
-			<div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/padi.jpg" class="card-img-top" alt="padi">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Padi</h5>
-          <p class="card-text-center">Padi (bahasa latin: Oryza sativa L.) merupakan salah satu tanaman budidaya terpenting dalam peradaban. Meskipun terutama mengacu pada jenis tanaman budidaya, padi juga digunakan untuk mengacu pada beberapa jenis dari marga (genus) yang sama, yang biasa disebut sebagai padi liar. Tanaman padi membutuhkan iklim yang panas dan lembab. Ini sangat ideal untuk daerah dengan kelembaban tinggi, sinar matahari yang panjang dan pasokan air yang terjamin. Suhu rata-rata yang dibutuhkan selama kehidupan tanaman adalah 21 hingga 37°C. Suhu maksimum yang dapat ditahan tanaman adalah 400 ° C hingga 42 ° C.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "JAGUNG" %}
-			<div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/jagung.jpg" class="card-img-top" alt="jagung">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Jagung</h5>
-          <p class="card-text-center">Jagung (Zea Mays) adalah salah satu  tanaman pangan penghasil karbohidrat yang terpenting di dunia, selain gandum dan padi. Jagung memiliki banyak manfaat bagi tubuh karena kandungan nutrisinya, diantara manfaatnya yaitu dapat menurunkan hipertensi sehingga dapat mencegah penyakit jantung. Jagung dapat mengontrol diabetes, memperlancar pencernaan, mencegah sembelit dan wasir karena jagung kaya akan serat, bahkan dapat menurunkan risiko kanker usus besar. Tanaman jagung membutuhkan kelembaban yang cukup di tanah sejak awal. Suhu 18 sampai 23 derajat Celcius untuk pengendapan dan suhu 28 derajat Celcius dianggap baik untuk pertumbuhan dan perkembangan. Jagung dapat tumbuh di semua jenis tanah.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "BUNCIS" %}
-			<div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/buncis.jpg" class="card-img-top" alt="buncis">
-        <div class="card-body">
-          <h5 class="card-title text-center">Buncis</h5>
-          <p class="card-text-center">Buncis adalah sayur yang kaya dengan protein dan vitamin ini membantu menurunkan tekanan darah serta mengawal metabolisme gula dalam darah dan amat sesuai dimakan oleh mereka yang mengidap penyakit diabetes atau hipertensi. Kandungan serat dan enzim yang tinggi dapat membantu penurunan berat badan. Cara menanam tanaman buncis adalah tanam langsung dengan memasukan 2-3 biji kedalam lubang sedalam 1- 2 cm kemudian ditimbun tanah, panen biasanya sudah bisa dilakukan setelah 60 hari atau polong kacang sudah cocok disayur. Buncis membutuhkan tanah yang dikeringkan dengan baik dengan sinar matahari penuh. Yang ideal adalah tanah yang relatif miskin, karena tingkat nutrisi yang tinggi mendorong pertumbuhan yang subur, rentan terhadap perkembangan jamur dan penyakit terkait. Hindari tanah liat berat atau tempat teduh</p>
-        </div>
-      </div>
-			{% elif prediction_text == "KACANG MERAH" %}
-      <h1 class="text-center">Rekomendasi Terbaik</h1>
-      <br>
-      <div class="card mb-3 card-center">
-        <img src="../static/assets/images/kacangmerah.jpg" class="card-img-top" alt="kacang merah">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kacang Merah</h5>
-          <p class="card-text-center">Kacang merah adalah bahan pangan yang cukup sering ditemui sehari-hari. Anda bisa memasak kacang merah sebagai sayur, sop, atau hidangan pencuci mulut. Akan tetapi, mungkin belum banyak diketahui bahwa kacang yang tumbuh di negara-negara Asia seperti Indonesia dan India ini ternyata tak hanya lezat, tetapi juga sangat bermanfaat bagi Kesehatan. Kacang merah membutuhkan setidaknya enam jam sinar matahari penuh sehari untuk pertumbuhan yang tepat. Siapkan tanah Anda. Anda ingin memiliki tanah yang gembur dan berdrainase baik dengan pH antara 6,0 dan 7,0 karena kacang tidak merespon dengan baik terhadap tingkat kelembapan yang tinggi. Kacang merah menghasilkan nitrogennya sendiri, jadi Anda tidak perlu menggunakan mulsa.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "KACANG GUDE" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/gude.jpg" class="card-img-top" alt="kacang gude">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kacang Gude</h5>
-          <p class="card-text-center">Gude, kacang gude, kacang kayo, atau kacang bali adalah sejenis tanaman kacang-kacangan yang bersifat tahunan. Bijinya dapat dimakan dan menjadi sumber pangan alternatif. Tanaman ini relatif tahan panas dan kering sehingga cocok sebagai tanaman penghijauan kawasan kering. Pigeon Pea cocok untuk iklim sub-tropis hingga tropis dan tumbuh subur di tempat yang hangat dengan air yang cukup. Ia lebih menyukai suhu yang lebih hangat dan tidak tahan beku. Pigeon Pea mentolerir berbagai jenis tanah, tingkat nutrisi yang rendah dan akan tumbuh dengan baik di pH tanah dari 5 hingga 8</p>
-        </div>
-      </div>
-			{% elif prediction_text == "KACANG MATKI" %}
-			<div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/kacangmatki.jpg" class="card-img-top" alt="kacang matki">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kacang Matki</h5>
-          <p class="card-text-center">Kacang matki adalah legum tahan kekeringan, biasanya ditanam di daerah kering dan semi-kering di India. Tingkat suhu ideal untuk pertumbuhan kacang ngengat adalah antara 24°C dan 32°C. Namun tanaman kacang ngengat juga dapat mentolerir suhu hingga 45°C pada siang hari. Curah hujan tahunan yang ideal adalah antara 500 dan 750 mm yang dibutuhkan untuk pertumbuhan Ngengat dan juga baik dengan curah hujan tahunan 300 mm.</p>
-        </div>
-      </div>		
-			{% elif prediction_text == "KACANG HIJAU" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/kacanghijau.jpg" class="card-img-top" alt="kacang hijau">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kacang Hijau</h5>
-          <p class="card-text-center">Kacang hijau adalah sejenis palawija yang dikenal luas di daerah tropika. Tumbuhan yang termasuk suku polong-polongan ini memiliki banyak manfaat dalam kehidupan sehari-hari sebagai sumber bahan pangan berprotein nabati tinggi. Kacang hijau tumbuh dengan baik di bawah sinar matahari penuh, sekitar delapan sampai 10 jam matahari setiap hari, dan tanah liat yang dikeringkan dengan baik yang memiliki pH 5,8 hingga 7,0. Tahunan yang lembut menghasilkan polong pada atau di atas tingkat dedaunan, yang memudahkan panen. Kacang hijau tahan terhadap sebagian besar masalah serangga dan penyakit.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "KACANG LENTIL" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/lentil.jpg" class="card-img-top" alt="kacang lentil">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kacang Lentil</h5>
-          <p class="card-text-center">Lentil adalah biji yang berasal dari keluarga kacang-kacangan yang mirip dengan kacang hijau. Jenis kacang-kacangan ini berbentuk menyerupai biji jagung dan dikenal sebagai makanan pokok yang ditemukan pada masakan Asia dan Afrika Utara. entil sering dijadikan pilihan favorit bagi vegetarian karena termasuk mengandung protein yang tinggi. Bahkan, kacang dengan tiga warna ini juga disebut-sebut menawarkan segudang khasiat bagi kesehatan tubuh. Lentil membutuhkan area sinar matahari penuh. Mereka lebih suka tanah yang gembur dan dikeringkan dengan baik yang kaya akan bahan organik. Mereka tumbuh paling baik di tanah dengan pH antara 6,0 dan 6,5. Taburkan biji lentil sedalam 1 t0 1½ inci, lebih dalam jika tanahnya kering dan beri jarak 1 inci.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "DELIMA" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/delima.jpg" class="card-img-top" alt="delima">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Delima</h5>
-          <p class="card-text-center">Delima, Buah dengan nama latin Punica granatum ini merupakan jenis buah yang masuk ke dalam kelompok berry. Buah delima diketahui mengandung berbagai nutrisi yang dibutuhkan oleh tubuh, seperti protein, karbohidrat, serat, dan vitamin, termasuk vitamin C, vitamin B kompleks, folat, vitamin E, serta vitamin K. Tumbuhkan buah delima di tanah yang dikeringkan dengan baik; tanah liat yang dalam adalah yang terbaik. Buah delima dapat tumbuh di tanah berpasir hingga tanah liat. pH tanah 5,5 hingga 7,5 adalah optimal. Tanam buah delima di bawah sinar matahari penuh di lokasi yang terlindung dari angin.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "PISANG" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/pisang.jpg" class="card-img-top" alt="pisang">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Pisang</h5>
-          <p class="card-text-center">Pisang adalah nama umum yang diberikan pada tumbuhan terna berukuran besar dengan daun memanjang dan besar yang tumbuh langsung dari bagian tangkai. Batang pisang bersifat lunak karena terbentuk dari lapisan pelepah yang lunak dan panjang. Batang yang agak keras berada di bagian permukaan tanah. Pisang memiliki daun bertangkai yang berpencar dan mudah robek dengan bagian batang yang meruncing. Ukuran daun pada tiap spesies pisang juga berbeda-beda. Suhu optimal untuk pertumbuhan pisang adalah 78° hingga 86°F. Tanaman membutuhkan 10 hingga 15 bulan cuaca bebas es untuk menghasilkan tangkai bunga. Dalam cuaca yang sangat panas, pisang harus menerima banyak air. Pisang tumbuh paling baik di bawah sinar matahari penuh, tetapi daun dan buahnya akan terbakar matahari dan hangus di bawah sinar matahari yang cerah ketika suhu tinggi.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "KACANG HITAM" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/blackgram.jpg" class="card-img-top" alt="kacang hitam">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kacang Hitam</h5>
-          <p class="card-text-center">Kacang hitam juga dikenal sebagai kacang penyu, karena teksturnya yang keras dan mirip cangkang. Kacang hitam sebenarnya adalah biji tanaman yang dapat dimakan. Sama seperti kacang-kacangan lain, kacang hitam juga kaya akan nutrisi, seperti protein dan serat. Kacang hitam dapat tumbuh di berbagai tanah mulai dari tanah berpasir hingga tanah kapas berat. Tanah yang paling ideal adalah tanah lempung yang berdrainase baik dengan pH 6,5 sampai 7,8. Gram hitam tidak dapat tumbuh di tanah alkalin dan salin. Lahan disiapkan seperti tanaman pulsa musim kharif lainnya.</p>
-        </div>
-      </div>	
-			{% elif prediction_text == "MANGGA" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/mangga.jpg" class="card-img-top" alt="mangga">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Mangga</h5>
-          <p class="card-text-center">Mangga atau mempelam adalah nama sejenis buah, demikian pula nama pohonnya. Mangga termasuk ke dalam marga Mangifera, yang terdiri dari 35-40 anggota dari suku Anacardiaceae. Buah mangga pada dasarnya merupakan golongan buah rendah kalori. Dalam satu buah mangga hanya terkandung sekitar 100–110 kalori. Kendati demikian, buah ini kaya akan antioksidan (polifenol dan beta karoten) dan sejumlah nutrisi lain yang bermanfaat bagi kesehatan. Mangga adalah buah tropis yang ketat. Mereka menyukai daerah tropis. Iklim terbaik untuk menanam mangga adalah bebas es dengan musim dingin yang sejuk dan kering serta musim panas yang beruap dan panas. Mangga suka tumbuh di tanah yang ringan dan bebas drainase, mereka tidak membutuhkan tanah yang subur.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "ANGGUR" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/anggur.jpg" class="card-img-top" alt="anggur">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Anggur</h5>
-          <p class="card-text-center">Tanaman anggur termasuk dalam famili Vitaceae, sedangkan varietas yang paling umum digunakan adalah spesies Vitis vinifera (tanaman anggur Eropa). Subspesies Euvitis lainnya digunakan sebagai batang bawah di daerah dengan masalah Phylloxera yang diperpanjang. Anggur adalah tanaman merambat berkayu. Tanam di bawah sinar matahari penuh untuk menyediakan panas yang dibutuhkan untuk mematangkan buah. Setiap pohon anggur membutuhkan sekitar 6 kaki ruang. Bunga dan buah berkembang pada tunas baru yang disebut tongkat</p>
-        </div>
-      </div>
-			{% elif prediction_text == "SEMANGKA" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/semangka.jpg" class="card-img-top" alt="semangka">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Semangka</h5>
-          <p class="card-text-center">Semangka (juga dikenal sebagai tembikai atau mendikai) (Citrullus lanatus, suku ketimun-ketimunan atau Cucurbitaceae). Tanaman ini masih sekerabat dengan labu-labuan (Cucurbitaceae), melon (Cucumis melo) dan ketimun (Cucumis sativus). Semangka biasa dipanen buahnya untuk dimakan segar atau dibuat jus. Biji semangka yang dikeringkan dan disangrai juga dapat dimakan isinya (kotiledon) sebagai kuaci. Tanaman semangka menyukai panas, dan membutuhkan musim tanam yang panjang dan hangat setidaknya 70 hingga 85 hari, tergantung varietasnya, untuk menghasilkan buah yang manis. Mereka tumbuh paling baik ketika suhu siang hari turun antara 70 dan 80 derajat Fahrenheit, dan suhu malam hari turun antara 65 dan 70 derajat Fahrenheit</p>
-        </div>
-      </div>
-			{% elif prediction_text == "MUSKMELON" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/muskmelon.jpg" class="card-img-top" alt="melon">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Muskmelon</h5>
-          <p class="card-text-center">Muskmelon , juga disebut melon pala , salah satu dari beberapa varietas melon yang dijaring dari keluarga labu ( Cucurbitaceae ), terkenal dengan daging jeruk berair manis beraroma musky . Muskmelon adalah tanaman musim hangat, disesuaikan dengan suhu bulanan rata-rata 65 hingga 75 derajat F, dan membutuhkan kelembaban dan nutrisi tanah yang cukup untuk pertumbuhan. Selama periode pematangan, melon kualitas terbaik dihasilkan ketika kondisi panas dan kering terjadi.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "APEL" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/apel.jpg" class="card-img-top" alt="apel">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Apel</h5>
-          <p class="card-text-center">Apel adalah jenis buah-buahan, atau buah yang dihasilkan dari pohon buah apel. Buah apel biasanya berwarna merah kulitnya jika masak dan (siap dimakan), namun bisa juga kulitnya berwarna hijau atau kuning. Kulit buahnya agak lembek dan daging buahnya keras. Buah ini memiliki beberapa biji di dalamnya. Apel tumbuh paling baik di bawah sinar matahari penuh. Pohon apel yang ditanam di bawah sinar matahari sebagian tidak akan menghasilkan buah sebanyak apel yang ditanam di bawah sinar matahari penuh. Apel tumbuh paling baik di tanah lempung yang dikeringkan dengan baik, meskipun mereka akan tumbuh di tanah yang lebih berpasir atau di tanah dengan sedikit tanah liat. Apel tumbuh paling baik pada pH tanah netral 6,0 hingga 7,0.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "JERUK" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/jeruk.jpg" class="card-img-top" alt="jeruk">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Jeruk</h5>
-          <p class="card-text-center">Jeruk atau limau adalah semua tumbuhan berbunga anggota marga Citrus dari suku Rutaceae (suku jeruk-jerukan). Banyak anggota jeruk yang dimanfaatkan oleh manusia sebagai bahan pangan, wewangian, maupun industri. Buah jeruk adalah sumber vitamin C dan wewangian/parfum penting. Daunnya juga digunakan sebagai rempah-rempah. Pohon jeruk adalah tanaman peka iklim yang memiliki persyaratan suhu yang cukup pasti. Ketika mereka aktif tumbuh, mereka melakukan yang terbaik jika suhu berkisar antara 55 hingga 100 derajat Fahrenheit. Mereka menjadi tidak aktif di musim dingin dan membutuhkan suhu tidak lebih rendah dari 35 F atau lebih tinggi dari 50 F selama periode ini.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "PEPAYA" %}
-			<div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/pepaya.jpg" class="card-img-top" alt="pepaya">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Pepaya</h5>
-          <p class="card-text-center">Pepaya, atau betik adalah tumbuhan yang diperkirakan berasal dari Meksiko bagian selatan dan bagian utara dari Amerika Selatan. Pepaya kini telah menyebar luas dan banyak ditanam di seluruh daerah tropis untuk diambil buahnya. Agar berhasil menanam Pepaya, Anda membutuhkan iklim yang bebas embun beku, banyak sinar matahari, banyak air, dan tanah yang baik. Jika Anda memberikan semua kondisi ini pada tanaman Anda, maka Anda dapat menanam pepaya dari biji dan umumnya berbuah dalam 6 hingga 12 bulan. Tips Menanam Pepaya: Iklim: Berkembang di iklim subtropis dan tropis.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "KELAPA" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/kelapa.jpg" class="card-img-top" alt="kelapa">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kelapa</h5>
-          <p class="card-text-center">Kelapa dikenal karena kegunaannya yang beragam, mulai dari makanan hingga kosmetik. Daging bagian dalam dari benih matang membentuk bagian yang secara teratur menjadi sumber makanan bagi banyak orang di daerah tropis dan subtropis. Kelapa berbeda dari buah-buahan lain karena endosperma mereka mengandung sejumlah besar cairan bening, disebut santan dalam literatur, dan ketika belum matang, dapat dipanen untuk diminum sebagai air kelapa, atau juga disebut jus kelapa. Pohon kelapa mentolerir beberapa kekeringan, tetapi secara keseluruhan adalah tanaman yang menyukai kelembaban yang tumbuh di tanah berpasir dan lempung. Mereka tumbuh dengan indah di iklim tropis apa pun yang menyediakan setidaknya 25 inci curah hujan tahunan, hingga 157 inci. Iklim dengan musim dingin yang hangat dan hujan serta musim panas yang panas, lembab, dan hujan sangat ideal.</p>
-        </div>
-      </div>
-			{% elif prediction_text == "KAPAS" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/kapas.jpg" class="card-img-top" alt="kapas">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kapas</h5>
-          <p class="card-text-center">Tanaman kapas tergolong tanaman semak yang berasal dari daerah tropis dan subtropis. Nama ilmiah dari tanaman ini adalah Gossypium sp. Ada 39 jenis tanaman kapas, salah satu yang dibudidayakan di Indonesia saat ini adalah jenis Gossypium hirsutum L. Dari tanaman kapas ini, kita bisa memperoleh serat kapas, yaitu serat halus yang menyelubungi biji. Nah, serat kapas inilah yang dipintal menjadi benang, lalu ditenun menjadi kain. Tanaman kapas membutuhkan kondisi iklim yang spesifik, yaitu tersedianya curah hujan yang cukup selama pertumbuhan dan kondisi kering pada saat panen. Curah hujan yang cukup sangat diperlukan pada periode awal, pembungaan dan pengisian buah (umur 70-80 hari)</p>
-        </div>
-      </div>	
-			{% elif prediction_text == "RAMI" %}
-      <div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/rami.jpg" class="card-img-top" alt="rami">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman RAMI</h5>
-          <p class="card-text-center">Rami merupakan tanaman yang dapat tumbuh di berbagai kondisi lahan mudah beradaptasi dengan lingkungan dan relatif tahan terhadap serangan hama. Dengan lahan yang relatif luas dan beriklim basah, Indonesia bagian barat sangat cocok untuk mengembangkan Rami sebab ia memerlukan curah hujan sepanjang tahun. Suhu berkisar lebih dari 25 ° C dan kelembaban relatif 70% -90% menguntungkan untuk budidaya yang sukses. Rami membutuhkan curah hujan 160–200 cm per tahun dengan tambahan yang dibutuhkan selama masa tanam. Daerah aliran sungai atau tanah aluvial atau lempung adalah yang terbaik untuk budidaya goni</p>
-        </div>
-      </div>
-			{% elif prediction_text == "KOPI" %}
-			<div class="card mb-3 card-center">
-        <h1 class="text-center">Rekomendasi Terbaik</h1>
-        <br>
-        <img src="../static/assets/images/kopi.jpg" class="card-img-top" alt="kopi">
-        <div class="card-body">
-          <h5 class="card-title text-center">Tanaman Kopi</h5>
-          <p class="card-text-center">Biji kopi adalah biji dari tumbuhan kopi dan merupakan sumber dari minuman kopi. Pohon kopi dapat tumbuh hingga mencapai tinggi 10 meter. Tumbuhan kopi umumnya ditanam dengan jarak antara pohon sekitar dua meter. Kopi arabika dan robusta masing-masing memiliki kebutuhan lingkungan yang berbeda; kopi arabika mengutamakan termperatur yang lebih dingin dan kopi robusta membutuhkan temperatur yang lebih hangat. Seperti halnya tumbuhan berbuah lainnya, kopi membutuhkan musim kering dan matahari yang cukup banyak ketika mulai berbuah. Ketika buah mulai matang, umumnya dipetik dengan tangan dan dibutuhkan ketelatenan petani dalam memilih buah yang benar-benar matang. Selain pemetikan secara selektif, metode lain yaitu petani memetik seluruh buah pada satu cabang, baik buah yang matang maupun tidak, untuk kemudian diseleksi di tempat pengolahan.Di fasilitas pengolahan kopi, buah kopi melalui proses pemisahan daging buah dari bijinya, lalu direndam dalam air selama dua hari untuk melarutkan sisa daging buah dan pulp yang mungkin masih menempel pada biji. Selain menggunakan metode perendaman, biji kopi juga dapat dijemur di bawah sinar matahari hingga kering untuk memisahkan daging buah dan bijinya.</p>
-        </div>
-      </div>
-			{% endif %}
     </section>
-  </div>
-  <br>
-  <br>
-    <section id="kontak" class="team-section">
-      <div class="container">
-          <div class="team-row">
-              <div class="section-title">
-                  <h1>Tentang Kami</h1>
-                  <p>
-                    TanamSaja merupakan hasil project capstone dari salah satu team
-                    SIB Dicoding 2021. Tujuan kami membuat website ini untuk
-                    membantu merekomendasikan tanaman pangan yang tepat sebelum anda
-                    mencoba budidaya tanaman pangan.
-                  </p>
-                  <p>Mari Berkenalan Bersama Kami!</p>
-              </div>
-          </div>
-          <div class="team-row">
-              <div class="team-items">
-                  <div class="item">
-                      <img src="../static/assets/images/weka.png" alt="team" />
-                      <div class="inner">
-                          <div class="info">
-                              <h5>Komang Wiweka Premana</h5>
-                              <p>M298R4298</p>
-                              <div class="social-links">
-                                  <a href="https://twitter.com/Wiweka19"><span
-                                          class="fa fa-twitter"></span></a>
-                                  <a href="https://github.com/wiwekapremana"><span class="fa fa-github"></span></a>
-                                  <a href="https://www.instagram.com/wiwekapremana/"><span
-                                          class="fa fa-instagram"></span></a>
-                                  <a href="https://www.linkedin.com/in/komang-wiweka-premana-86b37b151/"><span
-                                          class="fa fa-linkedin"></span></a>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="item">
-                    <img src="../static/assets/images/sinta.png" alt="team" />
-                    <div class="inner">
-                        <div class="info">
-                            <h5>Anak Agung Sinta Trisnajayanti</h5>
-                            <p>M014V4046</p>
-                            <div class="social-links">
-                                <a href="https://mobile.twitter.com/STrisnajayanti"><span
-                                        class="fa fa-twitter"></span></a>
-                                <a href="https://github.com/sintatrisnajayanti"><span class="fa fa-github"></span></a>
-                                <a href="https://www.instagram.com/sintatrisnajayanti/"><span
-                                        class="fa fa-instagram"></span></a>
-                                <a href="https://www.linkedin.com/in/sintatrisnajayanti/"><span
-                                        class="fa fa-linkedin"></span></a>
+
+    <!-- Features -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4>AI Powered</h4>
+                        <p>Menggunakan machine learning untuk analisis yang akurat</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Cepat & Akurat</h4>
+                        <p>Hasil prediksi muncul dalam hitungan detik setelah menginputkan beberapa parameter</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h4>22 Jenis Tanaman</h4>
+                        <p>Mendukung berbagai jenis tanaman pangan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prediction Section -->
+    <section class="py-5" id="predict">
+        <div class="container">
+            <div class="predict-section">
+                <div class="section-title">
+                    <h2><i class="fas fa-leaf" style="color: var(--primary);"></i> Prediksi Tanaman</h2>
+                    <p>Masukkan parameter tanah dan iklim untuk mendapatkan rekomendasi</p>
+                </div>
+
+                <form action="{{ url_for('predict') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-flask"></i> Nitrogen (N)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-flask"></i></span>
+                                <input type="number" class="form-control" name="n" 
+                                       placeholder="Contoh: 90" min="0" step="1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-flask"></i> Fosfor (P)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-flask"></i></span>
+                                <input type="number" class="form-control" name="p" 
+                                       placeholder="Contoh: 40" min="0" step="1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-flask"></i> Kalium (K)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-flask"></i></span>
+                                <input type="number" class="form-control" name="k" 
+                                       placeholder="Contoh: 40" min="0" step="1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-thermometer-half"></i> Suhu (°C)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-thermometer-half"></i></span>
+                                <input type="number" class="form-control" name="Temperature" 
+                                       placeholder="Contoh: 25.5" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-tint"></i> Kelembaban (%)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-tint"></i></span>
+                                <input type="number" class="form-control" name="Humidity" 
+                                       placeholder="Contoh: 80" min="0" step="1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-water"></i> pH Tanah
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-water"></i></span>
+                                <input type="number" class="form-control" name="PH" 
+                                       placeholder="Contoh: 6.5" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-cloud-rain"></i> Curah Hujan (mm)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-cloud-rain"></i></span>
+                                <input type="number" class="form-control" name="rain_fall" 
+                                       placeholder="Contoh: 100" min="0" step="0.01" required>
                             </div>
                         </div>
                     </div>
-                </div>
-              </div>
-          </div>
-          
-      </div>
-  </section>
-
-    <footer id="newsletter">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="copyright-text">
-              <p>
-                Copyright © 2021 CSD-090. DICODING.
-              </p>
+                    <button type="submit" class="btn btn-predict">
+                        <i class="fas fa-search"></i> Prediksi Sekarang
+                    </button>
+                </form>
             </div>
-          </div>
+
+            <!-- Result Section -->
+            {% if prediction_text %}
+            <div class="result-card">
+                <div class="text-center">
+                    <h3 class="result-title">
+                        <i class="fas fa-award" style="color: var(--primary);"></i> 
+                        Rekomendasi Utama
+                    </h3>
+                    <div class="crop-badge">
+                        <i class="fas fa-check-circle"></i> {{ prediction_text }}
+                    </div>
+                    <br>
+                    {% if plot_url %}
+                    <img src="data:image/png;base64, {{ plot_url }}" 
+                         alt="Grafik Prediksi" style="max-width: 100%; border-radius: 20px;">
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
         </div>
-      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-5" id="about" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tentang TanamSaja</h2>
+                <p>Platform rekomendasi tanaman pangan berbasis AI</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+                        TanamSaja adalah sistem rekomendasi tanaman pangan yang membantu petani 
+                        dan pelaku usaha pertanian untuk memilih tanaman yang tepat untuk dibudidayakan 
+                        berdasarkan kondisi tanah dan iklim. Dengan memanfaatkan teknologi Machine Learning, 
+                        kami memberikan rekomendasi yang akurat dan dapat dipercaya.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">
+                        <i class="fas fa-leaf"></i> TanamSaja
+                    </div>
+                    <p style="color: rgba(255,255,255,0.7);">
+                        Sistem Rekomendasi Tanaman Pangan Untuk Budidaya
+                    </p>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 style="margin-bottom: 20px;">Link Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home" class="footer-link">Beranda</a></li>
+                        <li class="mb-2"><a href="#predict" class="footer-link">Prediksi</a></li>
+                        <li class="mb-2"><a href="#about" class="footer-link">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 style="margin-bottom: 20px;">Ikuti Kami</h5>
+                    <div class="d-flex">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p style="color: rgba(255,255,255,0.5);">
+                    © 2024 TanamSaja. Dibuat dengan <i class="fas fa-heart" style="color: #e74c3c;"></i>
+                </p>
+            </div>
+        </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="../static/vendor/jquery/jquery.min.js"></script>
-    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/assets/js/owl-carousel.js"></script>
-    <script src="../static/assets/js/animation.js"></script>
-    <script src="../static/assets/js/imagesloaded.js"></script>
-    <script src="../static/assets/js/popup.js"></script>
-    <script src="../static/assets/js/custom.js"></script>
-    <script type="text/javascript">
-        $("#predict").click(function(){
-            $("#result").removeClass( "d-none").addClass("d-block");
-        }); 
-    </script>
-  </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

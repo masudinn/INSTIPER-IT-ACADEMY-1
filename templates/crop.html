@@ -1,351 +1,729 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="dicoding:email" content="wiweka@undiksha.ac.id">
-    <meta name="author" content="" />
-    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/45b14ba51c.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Tanaman - TanamSaja</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --secondary: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --accent: #f39c12;
+        }
 
-    <title>TanamSaja -- Sistem Rekomendasi Tanaman Pangan</title>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Bootstrap core CSS -->
-    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+html {
+            scroll-behavior: smooth;
+        }
 
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+        }
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
-    <link rel="stylesheet" href="../static/assets/css/style.css" />
-    <link rel="stylesheet" href="../static/assets/css/animated.css" />
-    <link rel="stylesheet" href="../static/assets/css/owl.css" />
-    <link rel="stylesheet" href="../static/assets/css/custom.css" />
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary) !important;
+        }
+
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: var(--dark) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary) !important;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .crop-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            height: 100%;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .crop-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .crop-card.hiding {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .crop-item {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .crop-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #c8e6c9;
+        }
+
+        .crop-image.loading {
+            background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .crop-body {
+            padding: 25px;
+        }
+
+        .crop-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .crop-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .crop-tags {
+            margin-top: 15px;
+        }
+
+        .crop-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 50px;
+            padding: 20px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-top: -30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-control {
+            border: 2px solid #e8e8e8;
+            border-radius: 15px;
+            padding: 15px 20px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid #e8e8e8;
+            border-radius: 30px;
+            padding: 10px 25px;
+            margin: 5px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
-        <div class="preloader-inner">
-            <span class="dot"></span>
-            <div class="dots">
-                <span></span>
-                <span></span>
-                <span></span>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-leaf"></i>TanamSaja
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#predict">Prediksi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/list-tanaman" class="active">List Tanaman</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#about">Tentang</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-    <!-- ***** Preloader End ***** -->
+    </nav>
 
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="#" class="logo">
-                            <img src="../static/assets/images/logo.png" alt="TanamSaja" />
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
-                            <li class="scroll-to-section">
-                                <a href="{{ url_for('welcome') }}" class="active">Beranda</a>
-                            </li>
-                            <li class="scroll-to-section">
-                                <a href="{{ url_for('welcome') }}">Rekomendasi</a>
-                            </li>
-                        </ul>
-                        <a class="menu-trigger">
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
+            <h1 class="page-title">Daftar Tanaman Pangan</h1>
+            <p class="page-subtitle">Ketahui informasi lengkap tentang tanaman yang bisa dibudidayakan</p>
+        </div>
+    </section>
+
+    <!-- Search & Filter -->
+    <div class="container">
+        <div class="search-box">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Cari tanaman...">
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control" id="categoryFilter">
+                        <option value="">Semua Kategori</option>
+                        <option value="sayur">Sayuran</option>
+                        <option value="buah">Buah</option>
+                        <option value="kacang">Kacang-kacangan</option>
+                        <option value="lain">Lainnya</option>
+                    </select>
                 </div>
             </div>
         </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
+    </div>
 
-    <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+    <!-- Crop List -->
+    <section class="py-5">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6 align-self-center">
-                            <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h2>Sistem Rekomendasi Tanaman Pangan Untuk Budidaya</h2>
-                                        <p>
-                                            Kami akan memberikan rekomendasi tanaman pangan berdasarkan dari hasil prediksi dengan memanfaatkan Machine Learning untuk membantu anda dalam memilih tanaman yang tepat untuk dibudidayakan.
-                                        </p>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <button type="button" class="btn btn-secondary">
-                        <a href="{{ url_for('welcome') }}">Prediksi Sekarang</a>
-                      </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
-                                <img src="../static/assets/images/logo2.png" alt="" />
+            <div class="section-title">
+                <h2><i class="fas fa-seedling" style="color: var(--primary);"></i> 22 Jenis Tanaman</h2>
+            </div>
+            
+            <div class="row" id="cropList">
+                <!-- Padi -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="lain" data-name="padi">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/padi.jpg" alt="Padi" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-seedling"></i> Padi</h3>
+                            <p class="crop-desc">Padi merupakan tanaman budidaya terpenting dalam peradaban. Tanaman ini membutuhkan iklim panas dan lembab dengan kelembaban tinggi dan pasokan air yang terjamin.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Karbohidrat</span>
+                                <span class="crop-tag">Suhu 21-37°C</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- Image Showcases-->
-    <section class="showcase">
-        <div class="container-fluid p-0">
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/jagung.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Tanaman Jagung</h2>
-                    <p class="lead mb-0">Jagung (Zea Mays) adalah salah satu tanaman pangan penghasil karbohidrat yang terpenting di dunia, selain gandum dan padi. Jagung memiliki banyak manfaat bagi tubuh karena kandungan nutrisinya, diantara manfaatnya yaitu dapat menurunkan
-                        hipertensi sehingga dapat mencegah penyakit jantung. Jagung dapat mengontrol diabetes, memperlancar pencernaan, mencegah sembelit dan wasir karena jagung kaya akan serat, bahkan dapat menurunkan risiko kanker usus besar. Tanaman
-                        jagung membutuhkan kelembaban yang cukup di tanah sejak awal. Suhu 18 sampai 23 derajat Celcius untuk pengendapan dan suhu 28 derajat Celcius dianggap baik untuk pertumbuhan dan perkembangan. Jagung dapat tumbuh di semua jenis
-                        tanah.
-                    </p>
+
+                <!-- Jagung -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="lain" data-name="jagung">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/jagung.jpg" alt="Jagung" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-seedling"></i> Jagung</h3>
+                            <p class="crop-desc">Jagung adalah tanaman pangan penghasil karbohidrat terpenting di dunia. Banyak manfaat untuk tubuh meliputi penurunan hipertensi dan mengontrol diabetes.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Karbohidrat</span>
+                                <span class="crop-tag">Suhu 18-28°C</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/padi.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Tanaman Padi</h2>
-                    <p class="lead mb-0">Padi (bahasa latin: Oryza sativa L.) merupakan salah satu tanaman budidaya terpenting dalam peradaban. Meskipun terutama mengacu pada jenis tanaman budidaya, padi juga digunakan untuk mengacu pada beberapa jenis dari marga (genus)
-                        yang sama, yang biasa disebut sebagai padi liar. Tanaman padi membutuhkan iklim yang panas dan lembab. Ini sangat ideal untuk daerah dengan kelembaban tinggi, sinar matahari yang panjang dan pasokan air yang terjamin. Suhu rata-rata
-                        yang dibutuhkan selama kehidupan tanaman adalah 21 hingga 37°C. Suhu maksimum yang dapat ditahan tanaman adalah 400 ° C hingga 42 ° C.</p>
+
+                <!-- Apel -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="apel">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/apel.jpg" alt="Apel" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-apple-alt"></i> Apel</h3>
+                            <p class="crop-desc">Buah apel kaya akan antioxidantes dan vitamin. Grow paling baik di bawah sinar matahari penuh dengan tanah lempung yang berdrainase baik.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">pH 6.0-7.0</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/buncis.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Tanaman Buncis</h2>
-                    <p class="lead mb-0">Buncis adalah sayur yang kaya dengan protein dan vitamin ini membantu menurunkan tekanan darah serta mengawal metabolisme gula dalam darah dan amat sesuai dimakan oleh mereka yang mengidap penyakit diabetes atau hipertensi. Kandungan
-                        serat dan enzim yang tinggi dapat membantu penurunan berat badan. Cara menanam tanaman buncis adalah tanam langsung dengan memasukan 2-3 biji kedalam lubang sedalam 1- 2 cm kemudian ditimbun tanah, panen biasanya sudah bisa dilakukan
-                        setelah 60 hari atau polong kacang sudah cocok disayur. Buncis membutuhkan tanah yang dikeringkan dengan baik dengan sinar matahari penuh. Yang ideal adalah tanah yang relatif miskin, karena tingkat nutrisi yang tinggi mendorong
-                        pertumbuhan yang subur, rentan terhadap perkembangan jamur dan penyakit terkait. Hindari tanah liat berat atau tempat teduh</p>
+
+                <!-- Pisang -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="pisang">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/pisang.jpg" alt="Pisang" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-lemon"></i> Pisang</h3>
+                            <p class="crop-desc">Tanaman pisang membutuhkan suhu optimal 25-27°C dan sinar matahari penuh. Butuh banyak air особенно pada cuaca panas.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">Suhu 25-27°C</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/kacangmerah.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Kacang Merah</h2>
-                    <p class="lead mb-0">Kacang merah adalah bahan pangan yang cukup sering ditemui sehari-hari. Anda bisa memasak kacang merah sebagai sayur, sop, atau hidangan pencuci mulut. Akan tetapi, mungkin belum banyak diketahui bahwa kacang yang tumbuh di negara-negara
-                        Asia seperti Indonesia dan India ini ternyata tak hanya lezat, tetapi juga sangat bermanfaat bagi Kesehatan. Kacang merah membutuhkan setidaknya enam jam sinar matahari penuh sehari untuk pertumbuhan yang tepat. Siapkan tanah Anda.
-                        Anda ingin memiliki tanah yang gembur dan berdrainase baik dengan pH antara 6,0 dan 7,0 karena kacang tidak merespon dengan baik terhadap tingkat kelembapan yang tinggi. Kacang merah menghasilkan nitrogennya sendiri, jadi Anda
-                        tidak perlu menggunakan mulsa.</p>
+
+                <!-- Mangga -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="mangga">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/mangga.jpg" alt="Mangga" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-lemon"></i> Mangga</h3>
+                            <p class="crop-desc">Buah tropis yang menyukai daerah tropis. Tanah ringan dan bebas drainase sangat cocok untuk pertumbuhan.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">Iklim Tropis</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/gude.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Kacang Gude</h2>
-                    <p class="lead mb-0">Gude, kacang gude, kacang kayo, atau kacang bali adalah sejenis tanaman kacang-kacangan yang bersifat tahunan. Bijinya dapat dimakan dan menjadi sumber pangan alternatif. Tanaman ini relatif tahan panas dan kering sehingga cocok sebagai
-                        tanaman penghijauan kawasan kering. Pigeon Pea cocok untuk iklim sub-tropis hingga tropis dan tumbuh subur di tempat yang hangat dengan air yang cukup. Ia lebih menyukai suhu yang lebih hangat dan tidak tahan beku. Pigeon Pea mentolerir
-                        berbagai jenis tanah, tingkat nutrisi yang rendah dan akan tumbuh dengan baik di pH tanah dari 5 hingga 8</p>
+
+                <!-- Jeruk -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="jeruk">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/jeruk.jpg" alt="Jeruk" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-lemon"></i> Jeruk</h3>
+                            <p class="crop-desc">Jeruk adalah sumber vitamin C penting. Pohon sensitif terhadap suhu, terbaik pada 15-30°C.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">Vitamin C</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/kacangmatki.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Kacang Matki</h2>
-                    <p class="lead mb-0">Kacang matki adalah legum tahan kekeringan, biasanya ditanam di daerah kering dan semi-kering di India. Tingkat suhu ideal untuk pertumbuhan kacang ngengat adalah antara 24°C dan 32°C. Namun tanaman kacang ngengat juga dapat mentolerir
-                        suhu hingga 45°C pada siang hari. Curah hujan tahunan yang ideal adalah antara 500 dan 750 mm yang dibutuhkan untuk pertumbuhan Ngengat dan juga baik dengan curah hujan tahunan 300 mm.</p>
+
+                <!-- anggur -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="anggur">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/anggur.jpg" alt="Anggur" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-wine-glass"></i> Anggur</h3>
+                            <p class="crop-desc">Tanaman merambat yang membutuhkan sinar matahari penuh untuk mematangkan buah.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">Merambat</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/kacanghijau.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Kacang Hijau</h2>
-                    <p class="lead mb-0">Kacang hijau adalah sejenis palawija yang dikenal luas di daerah tropika. Tumbuhan yang termasuk suku polong-polongan ini memiliki banyak manfaat dalam kehidupan sehari-hari sebagai sumber bahan pangan berprotein nabati tinggi. Kacang
-                        hijau tumbuh dengan baik di bawah sinar matahari penuh, sekitar delapan sampai 10 jam matahari setiap hari, dan tanah liat yang dikeringkan dengan baik yang memiliki pH 5,8 hingga 7,0. Tahunan yang lembut menghasilkan polong pada
-                        atau di atas tingkat dedaunan, yang memudahkan panen. Kacang hijau tahan terhadap sebagian besar masalah serangga dan penyakit.</p>
+
+                <!-- Semangka -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="semangka">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/semangka.jpg" alt="Semangka" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-lemon"></i> Semangka</h3>
+                            <p class="crop-desc">Tanaman musim panas dengan musim tanam 70-85 hari. Kulit tebal untuk menyimpan air.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">Suhu 21-30°C</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/lentil.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Kacang Lentil</h2>
-                    <p class="lead mb-0">Lentil adalah biji yang berasal dari keluarga kacang-kacangan yang mirip dengan kacang hijau. Jenis kacang-kacangan ini berbentuk menyerupai biji jagung dan dikenal sebagai makanan pokok yang ditemukan pada masakan Asia dan Afrika
-                        Utara. entil sering dijadikan pilihan favorit bagi vegetarian karena termasuk mengandung protein yang tinggi. Bahkan, kacang dengan tiga warna ini juga disebut-sebut menawarkan segudang khasiat bagi kesehatan tubuh. Lentil membutuhkan
-                        area sinar matahari penuh. Mereka lebih suka tanah yang gembur dan dikeringkan dengan baik yang kaya akan bahan organik. Mereka tumbuh paling baik di tanah dengan pH antara 6,0 dan 6,5. Taburkan biji lentil sedalam 1 t0 1½ inci,
-                        lebih dalam jika tanahnya kering dan beri jarak 1 inci.</p>
+
+                <!-- Melon -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="muskmelon melon">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/muskmelon.jpg" alt="Muskmelon" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-lemon"></i> Muskmelon</h3>
+                            <p class="crop-desc">Tanaman musim hangat dengan suhu bulanan rata-rata 18-24°C.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">Suhu 18-24°C</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/delima.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Tanaman Delima</h2>
-                    <p class="lead mb-0">Delima, Buah dengan nama latin Punica granatum ini merupakan jenis buah yang masuk ke dalam kelompok berry. Buah delima diketahui mengandung berbagai nutrisi yang dibutuhkan oleh tubuh, seperti protein, karbohidrat, serat, dan vitamin,
-                        termasuk vitamin C, vitamin B kompleks, folat, vitamin E, serta vitamin K. Tumbuhkan buah delima di tanah yang dikeringkan dengan baik; tanah liat yang dalam adalah yang terbaik. Buah delima dapat tumbuh di tanah berpasir hingga
-                        tanah liat. pH tanah 5,5 hingga 7,5 adalah optimal. Tanam buah delima di bawah sinar matahari penuh di lokasi yang terlindung dari angin.</p>
+
+                <!-- Pepaya -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="pepaya">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/pepaya.jpg" alt="Pepaya" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-lemon"></i> Pepaya</h3>
+                            <p class="crop-desc">Berkembang di iklim subtropis dan tropis. Butuh sinar matahari banyak dan air yang cukup.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">Panen 6-12 bulan</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/pisang.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Tanaman Pisang</h2>
-                    <p class="lead mb-0">Pisang adalah nama umum yang diberikan pada tumbuhan terna berukuran besar dengan daun memanjang dan besar yang tumbuh langsung dari bagian tangkai. Batang pisang bersifat lunak karena terbentuk dari lapisan pelepah yang lunak dan
-                        panjang. Batang yang agak keras berada di bagian permukaan tanah. Pisang memiliki daun bertangkai yang berpencar dan mudah robek dengan bagian batang yang meruncing. Ukuran daun pada tiap spesies pisang juga berbeda-beda. Suhu
-                        optimal untuk pertumbuhan pisang adalah 78° hingga 86°F. Tanaman membutuhkan 10 hingga 15 bulan cuaca bebas es untuk menghasilkan tangkai bunga. Dalam cuaca yang sangat panas, pisang harus menerima banyak air. Pisang tumbuh paling
-                        baik di bawah sinar matahari penuh, tetapi daun dan buahnya akan terbakar matahari dan hangus di bawah sinar matahari yang cerah ketika suhu tinggi.</p>
+
+                <!-- Delima -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="delima">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/delima.jpg" alt="Delima" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-lemon"></i> Delima</h3>
+                            <p class="crop-desc">Buah kaya nutrisi termasuk vitamin C, B kompleks, dan vitamin K.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">pH 5.5-7.5</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/blackgram.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Kacang Hitam</h2>
-                    <p class="lead mb-0">Kacang hitam juga dikenal sebagai kacang penyu, karena teksturnya yang keras dan mirip cangkang. Kacang hitam sebenarnya adalah biji tanaman yang dapat dimakan. Sama seperti kacang-kacangan lain, kacang hitam juga kaya akan nutrisi,
-                        seperti protein dan serat. Kacang hitam dapat tumbuh di berbagai tanah mulai dari tanah berpasir hingga tanah kapas berat. Tanah yang paling ideal adalah tanah lempung yang berdrainase baik dengan pH 6,5 sampai 7,8. Gram hitam
-                        tidak dapat tumbuh di tanah alkalin dan salin. Lahan disiapkan seperti tanaman pulsa musim kharif lainnya.</p>
+
+                <!-- Kelapa -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="buah" data-name="kelapa">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/kelapa.jpg" alt="Kelapa" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-tree"></i> Kelapa</h3>
+                            <p class="crop-desc">Tumbuh di tanah berpasir dan lempung. Iklim tropis dengancurah hujan 60-400 cm/tahun.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Buah</span>
+                                <span class="crop-tag">Iklim Tropis</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/mangga.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Mangga</h2>
-                    <p class="lead mb-0">Mangga atau mempelam adalah nama sejenis buah, demikian pula nama pohonnya. Mangga termasuk ke dalam marga Mangifera, yang terdiri dari 35-40 anggota dari suku Anacardiaceae. Buah mangga pada dasarnya merupakan golongan buah rendah
-                        kalori. Dalam satu buah mangga hanya terkandung sekitar 100–110 kalori. Kendati demikian, buah ini kaya akan antioksidan (polifenol dan beta karoten) dan sejumlah nutrisi lain yang bermanfaat bagi kesehatan. Mangga adalah buah
-                        tropis yang ketat. Mereka menyukai daerah tropis. Iklim terbaik untuk menanam mangga adalah bebas es dengan musim dingin yang sejuk dan kering serta musim panas yang beruap dan panas. Mangga suka tumbuh di tanah yang ringan dan
-                        bebas drainase, mereka tidak membutuhkan tanah yang subur.</p>
+
+                <!-- Buncis -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="sayur" data-name="buncis">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/buncis.jpg" alt="Buncis" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-carrot"></i> Buncis</h3>
+                            <p class="crop-desc">Sayuran kaya protein dan vitamin. Turunkan tekanan darah dan metabolismegula dalam darah.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Sayur</span>
+                                <span class="crop-tag">Panen 60 hari</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/anggur.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Tanaman Anggur</h2>
-                    <p class="lead mb-0">Tanaman anggur termasuk dalam famili Vitaceae, sedangkan varietas yang paling umum digunakan adalah spesies Vitis vinifera (tanaman anggur Eropa). Subspesies Euvitis lainnya digunakan sebagai batang bawah di daerah dengan masalah Phylloxera
-                        yang diperpanjang. Anggur adalah tanaman merambat berkayu. Tanam di bawah sinar matahari penuh untuk menyediakan panas yang dibutuhkan untuk mematangkan buah. Setiap pohon anggur membutuhkan sekitar 6 kaki ruang. Bunga dan buah
-                        berkembang pada tunas baru yang disebut tongkat</p>
+
+                <!-- Kacang Merah -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="kacang" data-name="kacang merah">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/kacangmerah.jpg" alt="Kacang Merah" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-seedling"></i> Kacang Merah</h3>
+                            <p class="crop-desc">Kaya protein dan serat. Butuh 6 jam sinar matahari penuh. Tanahmenghasilkan nitrogen sendiri.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Kacang</span>
+                                <span class="crop-tag">pH 6.0-7.0</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/semangka.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Tanaman Semangka</h2>
-                    <p class="lead mb-0">Semangka (juga dikenal sebagai tembikai atau mendikai) (Citrullus lanatus, suku ketimun-ketimunan atau Cucurbitaceae). Tanaman ini masih sekerabat dengan labu-labuan (Cucurbitaceae), melon (Cucumis melo) dan ketimun (Cucumis sativus).
-                        Semangka biasa dipanen buahnya untuk dimakan segar atau dibuat jus. Biji semangka yang dikeringkan dan disangrai juga dapat dimakan isinya (kotiledon) sebagai kuaci. Tanaman semangka menyukai panas, dan membutuhkan musim tanam
-                        yang panjang dan hangat setidaknya 70 hingga 85 hari, tergantung varietasnya, untuk menghasilkan buah yang manis. Mereka tumbuh paling baik ketika suhu siang hari turun antara 70 dan 80 derajat Fahrenheit, dan suhu malam hari turun
-                        antara 65 dan 70 derajat Fahrenheit</p>
+
+                <!-- Kacang Hijau -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="kacang" data-name="kacangkacang hijau">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/kacanghijau.jpg" alt="Kacang Hijau" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-seedling"></i> Kacang Hijau</h3>
+                            <p class="crop-desc">Palawija dengan protein nabati tinggi. Grow with full sun 8-10 jam.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Kacang</span>
+                                <span class="crop-tag">pH 5.8-7.0</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/muskmelon.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Muskmelon</h2>
-                    <p class="lead mb-0">Muskmelon , juga disebut melon pala , salah satu dari beberapa varietas melon yang dijaring dari keluarga labu ( Cucurbitaceae ), terkenal dengan daging jeruk berair manis beraroma musky . Muskmelon adalah tanaman musim hangat, disesuaikan
-                        dengan suhu bulanan rata-rata 65 hingga 75 derajat F, dan membutuhkan kelembaban dan nutrisi tanah yang cukup untuk pertumbuhan. Selama periode pematangan, melon kualitas terbaik dihasilkan ketika kondisi panas dan kering terjadi.</p>
+
+                <!-- Kacang Hitam -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="kacang" data-name="kacangkacang hitam blackgram">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/blackgram.jpg" alt="Kacang Hitam" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-seedling"></i> Kacang Hitam</h3>
+                            <p class="crop-desc">Grow di各种 tanah. Lebih suka lempung dengan pH 6.5-7.8.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Kacang</span>
+                                <span class="crop-tag">pH 6.5-7.8</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/apel.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Tanaman Apel</h2>
-                    <p class="lead mb-0">Apel adalah jenis buah-buahan, atau buah yang dihasilkan dari pohon buah apel. Buah apel biasanya berwarna merah kulitnya jika masak dan (siap dimakan), namun bisa juga kulitnya berwarna hijau atau kuning. Kulit buahnya agak lembek
-                        dan daging buahnya keras. Buah ini memiliki beberapa biji di dalamnya. Apel tumbuh paling baik di bawah sinar matahari penuh. Pohon apel yang ditanam di bawah sinar matahari sebagian tidak akan menghasilkan buah sebanyak apel yang
-                        ditanam di bawah sinar matahari penuh. Apel tumbuh paling baik di tanah lempung yang dikeringkan dengan baik, meskipun mereka akan tumbuh di tanah yang lebih berpasir atau di tanah dengan sedikit tanah liat. Apel tumbuh paling
-                        baik pada pH tanah netral 6,0 hingga 7,0.</p>
+
+                <!-- Kacang Gude -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="kacang" data-name="kacangkacang gude pigeon peas">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/gude.jpg" alt="Kacang Gude" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-seedling"></i> Kacang Gude</h3>
+                            <p class="crop-desc">Tahan panas dan kering, cocok untuk kawasan kering.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Kacang</span>
+                                <span class="crop-tag">Tahan Kering</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/jeruk.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Tanaman Jeruk</h2>
-                    <p class="lead mb-0">Jeruk atau limau adalah semua tumbuhan berbunga anggota marga Citrus dari suku Rutaceae (suku jeruk-jerukan). Banyak anggota jeruk yang dimanfaatkan oleh manusia sebagai bahan pangan, wewangian, maupun industri. Buah jeruk adalah sumber
-                        vitamin C dan wewangian/parfum penting. Daunnya juga digunakan sebagai rempah-rempah. Pohon jeruk adalah tanaman peka iklim yang memiliki persyaratan suhu yang cukup pasti. Ketika mereka aktif tumbuh, mereka melakukan yang terbaik
-                        jika suhu berkisar antara 55 hingga 100 derajat Fahrenheit. Mereka menjadi tidak aktif di musim dingin dan membutuhkan suhu tidak lebih rendah dari 35 F atau lebih tinggi dari 50 F selama periode ini.</p>
+
+                <!-- Kacang Matki -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="kacang" data-name="kacangkacang matki mothbeans">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/kacangmatki.jpg" alt="Kacang Matki" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-seedling"></i> Kacang Matki</h3>
+                            <p class="crop-desc">Legum tahan kekeringan. Suhu ideal 24-32°C.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Kacang</span>
+                                <span class="crop-tag">Suhu 24-32°C</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/pepaya.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Tananam Pepaya</h2>
-                    <p class="lead mb-0">Pepaya, atau betik adalah tumbuhan yang diperkirakan berasal dari Meksiko bagian selatan dan bagian utara dari Amerika Selatan. Pepaya kini telah menyebar luas dan banyak ditanam di seluruh daerah tropis untuk diambil buahnya. Agar
-                        berhasil menanam Pepaya, Anda membutuhkan iklim yang bebas embun beku, banyak sinar matahari, banyak air, dan tanah yang baik. Jika Anda memberikan semua kondisi ini pada tanaman Anda, maka Anda dapat menanam pepaya dari biji dan
-                        umumnya berbuah dalam 6 hingga 12 bulan. Tips Menanam Pepaya: Iklim: Berkembang di iklim subtropis dan tropis.</p>
+
+                <!-- Kacang Lentil -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="kacang" data-name="kacanglentil lentil">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/lentil.jpg" alt="Kacang Lentil" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-seedling"></i> Kacang Lentil</h3>
+                            <p class="crop-desc">Kaya protein. Lebih suka tanah yanggembur dengan pH 6.0-6.5.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Kacang</span>
+                                <span class="crop-tag">Kaya Protein</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/kelapa.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Kelapa</h2>
-                    <p class="lead mb-0">Kelapa dikenal karena kegunaannya yang beragam, mulai dari makanan hingga kosmetik. Daging bagian dalam dari benih matang membentuk bagian yang secara teratur menjadi sumber makanan bagi banyak orang di daerah tropis dan subtropis.
-                        Kelapa berbeda dari buah-buahan lain karena endosperma mereka mengandung sejumlah besar cairan bening, disebut santan dalam literatur, dan ketika belum matang, dapat dipanen untuk diminum sebagai air kelapa, atau juga disebut jus
-                        kelapa. Pohon kelapa mentolerir beberapa kekeringan, tetapi secara keseluruhan adalah tanaman yang menyukai kelembaban yang tumbuh di tanah berpasir dan lempung. Mereka tumbuh dengan indah di iklim tropis apa pun yang menyediakan
-                        setidaknya 25 inci curah hujan tahunan, hingga 157 inci. Iklim dengan musim dingin yang hangat dan hujan serta musim panas yang panas, lembab, dan hujan sangat ideal.</p>
+
+                <!-- Kapas -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="lain" data-name="kapas cotton">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/kapas.jpg" alt="Kapas" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-cloud"></i> Kapas</h3>
+                            <p class="crop-desc">Tanaman semak dari daerah tropis. Butuh curah hujan cukup saat growth.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Serat</span>
+                                <span class="crop-tag">Umur 70-80 hari</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/kapas.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Tanaman Kapas</h2>
-                    <p class="lead mb-0">Tanaman kapas tergolong tanaman semak yang berasal dari daerah tropis dan subtropis. Nama ilmiah dari tanaman ini adalah Gossypium sp. Ada 39 jenis tanaman kapas, salah satu yang dibudidayakan di Indonesia saat ini adalah jenis Gossypium
-                        hirsutum L. Dari tanaman kapas ini, kita bisa memperoleh serat kapas, yaitu serat halus yang menyelubungi biji. Nah, serat kapas inilah yang dipintal menjadi benang, lalu ditenun menjadi kain. Tanaman kapas membutuhkan kondisi
-                        iklim yang spesifik, yaitu tersedianya curah hujan yang cukup selama pertumbuhan dan kondisi kering pada saat panen. Curah hujan yang cukup sangat diperlukan pada periode awal, pembungaan dan pengisian buah (umur 70-80 hari)</p>
+
+                <!-- Rami -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="lain" data-name="rami jute">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/rami.jpg" alt="Rami" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-leaf"></i> Rami</h3>
+                            <p class="crop-desc">Plant can grow di berbagai kondisi lahan. Butuh curah hujan 160-200 cm/tahun.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Serat</span>
+                                <span class="crop-tag">Suhu >25°C</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('../static/assets/images/rami.jpg')"></div>
-                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                    <h2>Tanaman Rami</h2>
-                    <p class="lead mb-0">Rami merupakan tanaman yang dapat tumbuh di berbagai kondisi lahan mudah beradaptasi dengan lingkungan dan relatif tahan terhadap serangan hama. Dengan lahan yang relatif luas dan beriklim basah, Indonesia bagian barat sangat cocok
-                        untuk mengembangkan Rami sebab ia memerlukan curah hujan sepanjang tahun. Suhu berkisar lebih dari 25 ° C dan kelembaban relatif 70% -90% menguntungkan untuk budidaya yang sukses. Rami membutuhkan curah hujan 160–200 cm per tahun
-                        dengan tambahan yang dibutuhkan selama masa tanam. Daerah aliran sungai atau tanah aluvial atau lempung adalah yang terbaik untuk budidaya goni</p>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div class="row g-0">
-                <div class="col-lg-6 text-white showcase-img" style="background-image: url('../static/assets/images/kopi.jpg')"></div>
-                <div class="col-lg-6 my-auto showcase-text">
-                    <h2>Tanaman Kopi</h2>
-                    <p class="lead mb-0">Biji kopi adalah biji dari tumbuhan kopi dan merupakan sumber dari minuman kopi. Pohon kopi dapat tumbuh hingga mencapai tinggi 10 meter. Tumbuhan kopi umumnya ditanam dengan jarak antara pohon sekitar dua meter. Kopi arabika dan robusta
-                        masing-masing memiliki kebutuhan lingkungan yang berbeda; kopi arabika mengutamakan termperatur yang lebih dingin dan kopi robusta membutuhkan temperatur yang lebih hangat. Seperti halnya tumbuhan berbuah lainnya, kopi membutuhkan
-                        musim kering dan matahari yang cukup banyak ketika mulai berbuah. Ketika buah mulai matang, umumnya dipetik dengan tangan dan dibutuhkan ketelatenan petani dalam memilih buah yang benar-benar matang. Selain pemetikan secara selektif,
-                        metode lain yaitu petani memetik seluruh buah pada satu cabang, baik buah yang matang maupun tidak, untuk kemudian diseleksi di tempat pengolahan.Di fasilitas pengolahan kopi, buah kopi melalui proses pemisahan daging buah dari
-                        bijinya, lalu direndam dalam air selama dua hari untuk melarutkan sisa daging buah dan pulp yang mungkin masih menempel pada biji. Selain menggunakan metode perendaman, biji kopi juga dapat dijemur di bawah sinar matahari hingga
-                        kering untuk memisahkan daging buah dan bijinya.</p>
+
+                <!-- Kopi -->
+                <div class="col-md-6 col-lg-4 mb-4 crop-item" data-category="lain" data-name="kopi coffee">
+                    <div class="crop-card">
+                        <img src="/static/assets/images/kopi.jpg" alt="Kopi" class="crop-image">
+                        <div class="crop-body">
+                            <h3 class="crop-title"><i class="fas fa-coffee"></i> Kopi</h3>
+                            <p class="crop-desc">Arabika butuh suhudingin, robusta butuh suhue lebih hangat.</p>
+                            <div class="crop-tags">
+                                <span class="crop-tag">Minuman</span>
+                                <span class="crop-tag">15-24°C</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="newsletter">
+    <!-- Footer -->
+    <footer>
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="copyright-text">
-                        <p>
-                            Copyright © 2021 CSD-090. DICODING.
-                        </p>
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">
+                        <i class="fas fa-leaf"></i> TanamSaja
+                    </div>
+                    <p style="color: rgba(255,255,255,0.7);">
+                        Sistem Rekomendasi Tanaman Pangan Untuk Budidaya
+                    </p>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 style="margin-bottom: 20px;">Link Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="text-light text-decoration-none">Beranda</a></li>
+                        <li class="mb-2"><a href="/#predict" class="text-light text-decoration-none">Prediksi</a></li>
+                        <li class="mb-2"><a href="/list-tanaman" class="text-light text-decoration-none">List Tanaman</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 style="margin-bottom: 20px;">Ikuti Kami</h5>
+                    <div class="d-flex">
+                        <a href="#" class="social-icon text-light text-decoration-none me-2">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon text-light text-decoration-none me-2">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon text-light text-decoration-none me-2">
+                            <i class="fab fa-twitter"></i>
+                        </a>
                     </div>
                 </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p style="color: rgba(255,255,255,0.5);">
+                    © 2024 TanamSaja. Dibuat dengan <i class="fas fa-heart" style="color: #e74c3c;"></i>
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="../static/vendor/jquery/jquery.min.js"></script>
-    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/assets/js/owl-carousel.js"></script>
-    <script src="../static/assets/js/animation.js"></script>
-    <script src="../static/assets/js/imagesloaded.js"></script>
-    <script src="../static/assets/js/popup.js"></script>
-    <script src="../static/assets/js/custom.js"></script>
-    <script type="text/javascript">
-        $("#predict").click(function() {
-            $("#result").removeClass("d-none").addClass("d-block");
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Shimmer loading effect
+        document.querySelectorAll('.crop-image').forEach(img => {
+            img.classList.add('loading');
+            if (img.complete) {
+                img.classList.remove('loading');
+            } else {
+                img.addEventListener('load', () => img.classList.remove('loading'));
+            }
+        });
+
+        // Debounced filter dengan smooth animation
+        let filterTimeout;
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const cropItems = document.querySelectorAll('.crop-item');
+
+        function filterCrops() {
+            clearTimeout(filterTimeout);
+            cropItems.forEach(item => item.classList.add('hiding'));
+            
+            filterTimeout = setTimeout(() => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const category = categoryFilter.value;
+
+                cropItems.forEach(item => {
+                    const name = item.dataset.name;
+                    const itemCategory = item.dataset.category;
+                    const matchesSearch = name.includes(searchTerm);
+                    const matchesCategory = category === '' || itemCategory === category;
+
+                    if (matchesSearch && matchesCategory) {
+                        item.style.display = 'block';
+                        requestAnimationFrame(() => item.classList.remove('hiding'));
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }, 200);
+        }
+
+        searchInput.addEventListener('input', filterCrops);
+        categoryFilter.addEventListener('change', filterCrops);
+
+        // Initial staggered card animation
+        window.addEventListener('load', () => {
+            cropItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 80);
+            });
         });
     </script>
 </body>

@@ -5,9 +5,13 @@ import pickle
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+import joblib
 
 app = Flask(__name__)
-model = pickle.load(open('model.pkl', 'rb'))
+
+model = joblib.load("crop_model.pkl")
+
+# model = pickle.load(open('model.pkl', 'rb'))
 
 b = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
      12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
@@ -66,4 +70,7 @@ def predict():
     return render_template('index.html',plot_url=plot_url, prediction_text=format(output))
 
     # return render_template('index.html', plot_url=plot_url)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
