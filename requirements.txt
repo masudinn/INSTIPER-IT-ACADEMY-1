@@ -6,4 +6,5 @@
 -----> pip install setuptools wheel
 -----> pip install pandas numpy Flask scikit-learn matplotlib
 -----> python app.py
+2. ubah codingan
 ----->ubah file app.py line 68 classes.encoded.iloc[i]==pred2
