@@ -7,4 +7,6 @@
 -----> pip install pandas numpy Flask scikit-learn matplotlib
 -----> python app.py
 2. ubah codingan
------>ubah file app.py line 68 classes.encoded.iloc[i]==pred2
+----->tambahkan import matplotlib                               di line 5
+----->tambahkan matplotlib.use('Agg')                           di line 6
+----->ubah file app.py bagian classes.encoded.iloc[i]==pred2    diline 68
